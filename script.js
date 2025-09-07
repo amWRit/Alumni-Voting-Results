@@ -65,23 +65,16 @@ let pollData = [];
 let totalVotes = 0;
 
 async function loadPollData() {
-    // Wait for elements to be available
-    let retries = 0;
-    while (retries < 50) {
-        const loading = document.getElementById('loading');
-        const results = document.getElementById('results');
-        const error = document.getElementById('error');
-        
-        if (loading && results && error) {
-            loading.style.display = 'block';
-            results.style.display = 'none';
-            error.style.display = 'none';
-            break;
-        }
-        
-        // Wait 100ms and try again
-        await new Promise(resolve => setTimeout(resolve, 100));
-        retries++;
+    // Get UI elements if they exist (for results page)
+    const loading = document.getElementById('loading');
+    const results = document.getElementById('results');
+    const error = document.getElementById('error');
+    
+    // Only manipulate UI elements if they exist (results page)
+    if (loading && results && error) {
+        loading.style.display = 'block';
+        results.style.display = 'none';
+        error.style.display = 'none';
     }
 
     try {
@@ -139,8 +132,11 @@ async function loadPollData() {
         }, 2000);
     }
 
-    loading.style.display = 'none';
-    results.style.display = 'block';
+    // Only manipulate UI elements if they exist (results page)
+    if (loading && results) {
+        loading.style.display = 'none';
+        results.style.display = 'block';
+    }
 }
 
 function getAvatarHTML(profile, candidate) {
@@ -156,6 +152,12 @@ function displayResults() {
     // Update total votes
     document.getElementById('total-count').textContent = totalVotes.toLocaleString();
 
+    // Remove the total votes section entirely
+    const totalVotesSection = document.getElementById('total-votes');
+    if (totalVotesSection) {
+        totalVotesSection.remove();
+    }
+    
     // Display candidate results
     const resultsContainer = document.getElementById('candidates-results');
     if (!resultsContainer) return;
@@ -191,8 +193,22 @@ function loadCandidateProfiles() {
     const profilesContainer = document.getElementById('candidate-profiles');
     if (!profilesContainer) return;
 
+    // Find the candidate with the most votes
+    let leadingCandidate = '';
+    let maxVotes = -1;
+    
+    if (pollData.length > 0) {
+        pollData.forEach(candidate => {
+            if (candidate.votes > maxVotes) {
+                maxVotes = candidate.votes;
+                leadingCandidate = candidate.candidate;
+            }
+        });
+    }
+
     profilesContainer.innerHTML = Object.entries(CANDIDATE_PROFILES).map(([name, profile]) => `
         <div class="candidate-profile">
+            ${name === leadingCandidate && maxVotes > 0 ? '<div class="crown">👑</div>' : ''}
             <div class="candidate-avatar">
                 ${profile.imageUrl ? 
                     `<img src="${profile.imageUrl}" alt="${name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">` :
@@ -235,8 +251,11 @@ function triggerRefresh() {
 }
 
 // Initialize the page
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     const currentPage = window.location.pathname;
+    
+    // First load the poll data for both pages
+    await loadPollData();
     
     // Check multiple possible ways the results page might be identified
     if (currentPage.includes('results.html') || 
@@ -244,15 +263,18 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href.includes('results.html') ||
         document.querySelector('.nav-tabs a.active[href*="results"]')) {
         
-        console.log('Results page detected, loading data...');
-        // Click the refresh button after a small delay to ensure it's loaded
-        setTimeout(triggerRefresh, 100);
-        
+        console.log('Results page detected, setting up auto-refresh...');
         // Set up auto-refresh
         setInterval(triggerRefresh, CONFIG.REFRESH_INTERVAL);
     } else {
         // Home/Candidates page
+        console.log('Candidates page detected, loading profiles...');
         loadCandidateProfiles();
+        // Set up auto-refresh for candidates page as well
+        setInterval(async () => {
+            await loadPollData();
+            loadCandidateProfiles();
+        }, CONFIG.REFRESH_INTERVAL);
     }
 
     // Set up vote button if it exists
