@@ -126,16 +126,18 @@ async function loadPollData() {
         
         displayResults();
         
-        // Still show error message
-        setTimeout(() => {
+        // Update UI elements if they exist (results page)
+        if (loading && results && error) {
+            loading.style.display = 'none';
+            results.style.display = 'block';
             error.style.display = 'block';
-        }, 2000);
-    }
-
-    // Only manipulate UI elements if they exist (results page)
-    if (loading && results) {
-        loading.style.display = 'none';
-        results.style.display = 'block';
+        }
+    } finally {
+        // Always ensure we hide the loading spinner and show results
+        if (loading && results) {
+            loading.style.display = 'none';
+            results.style.display = 'block';
+        }
     }
 }
 
@@ -254,8 +256,20 @@ function triggerRefresh() {
 document.addEventListener('DOMContentLoaded', async function() {
     const currentPage = window.location.pathname;
     
-    // First load the poll data for both pages
-    await loadPollData();
+    // Function for auto-refresh
+    const refreshData = async () => {
+        try {
+            await loadPollData();
+            if (!currentPage.includes('results')) {
+                loadCandidateProfiles();
+            }
+        } catch (error) {
+            console.error('Error in auto-refresh:', error);
+        }
+    };
+    
+    // First load the poll data
+    await refreshData();
     
     // Check multiple possible ways the results page might be identified
     if (currentPage.includes('results.html') || 
@@ -264,18 +278,13 @@ document.addEventListener('DOMContentLoaded', async function() {
         document.querySelector('.nav-tabs a.active[href*="results"]')) {
         
         console.log('Results page detected, setting up auto-refresh...');
-        // Set up auto-refresh
-        setInterval(triggerRefresh, CONFIG.REFRESH_INTERVAL);
     } else {
         // Home/Candidates page
         console.log('Candidates page detected, loading profiles...');
-        loadCandidateProfiles();
-        // Set up auto-refresh for candidates page as well
-        setInterval(async () => {
-            await loadPollData();
-            loadCandidateProfiles();
-        }, CONFIG.REFRESH_INTERVAL);
     }
+    
+    // Set up auto-refresh for both pages
+    setInterval(refreshData, CONFIG.REFRESH_INTERVAL);
 
     // Set up vote button if it exists
     const voteButton = document.querySelector('.vote-button');

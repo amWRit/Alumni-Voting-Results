@@ -308,6 +308,7 @@ body {
 }
 
 .refresh-btn {
+    display: none;
     margin-top: 20px;
     padding: 10px 20px;
     background: rgba(31, 54, 95, 0.2);
