@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Representative</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="nav-tabs">
+            <a href="index.html" class="active">Candidates</a>
+            <a href="results.html">Results</a>
+        </nav>
+
+        <button class="vote-button" onclick="window.open('#', '_blank')">
+            🗳️ Cast Your Vote
+        </button>
+
+        <div class="header">
+            <h1>Alumni Representative to TFN Board</h1>
+            <p>Meet our candidates and cast your vote</p>
+        </div>
+
+        <div class="candidates-grid" id="candidate-profiles">
+            <!-- Candidate profiles will be dynamically loaded here -->
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
