@@ -40,7 +40,7 @@ const CONFIG = {
 // Sample candidate profiles (you can customize these)
 const CANDIDATE_PROFILES = {
     'Ganesh Paudyal': {
-        bio: 'Cohort 2021',
+        bio: 'Cohort 2018',
         avatar: 'GP',
         imageUrl: './images/ganesh.jpg'
     },
@@ -55,7 +55,7 @@ const CANDIDATE_PROFILES = {
         imageUrl: './images/shiv.jpeg'
     },
     'Suhel Ratna Shakya': {
-        bio: 'Cohort 2018',
+        bio: 'Cohort 2021',
         avatar: 'SRS',
         imageUrl: './images/suhel.jpg'
     }
@@ -347,4 +347,5 @@ document.addEventListener('mousemove', function(e) {
         }
     });
 });
+
 
