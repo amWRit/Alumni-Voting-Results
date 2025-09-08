@@ -174,14 +174,12 @@ function displayResults() {
                 <div class="candidate-header">
                     <div class="candidate-avatar">${avatarContent}</div>
                     <div class="candidate-info">
-                        <h3>${candidate.candidate}</h3>
-                        <div class="candidate-votes">${candidate.votes.toLocaleString()} votes</div>
+                        <h3>${candidate.candidate} <span class="vote-percentage">(${percentage}%)</span></h3>
                     </div>
                 </div>
                 <div class="vote-bar">
                     <div class="vote-fill" style="width: ${percentage}%"></div>
                 </div>
-                <div class="vote-percentage">${percentage}%</div>
             </div>
         `;
     }).join('');
