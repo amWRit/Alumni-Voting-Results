@@ -109,10 +109,12 @@ body {
     margin-bottom: 3px;
 }
 
-.candidate-votes {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #D13239;
+.vote-percentage {
+    font-size: 1rem;
+    font-weight: normal;
+    color: #666;
+    display: inline-block;
+    margin-left: 8px;
 }
 
 .vote-bar {
@@ -146,13 +148,6 @@ body {
 @keyframes shimmer {
     0% { transform: translateX(-100%); }
     100% { transform: translateX(100%); }
-}
-
-.vote-percentage {
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #555;
-    text-align: right;
 }
 
 .total-votes {
