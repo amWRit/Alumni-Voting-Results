@@ -10,16 +10,17 @@
     <div class="container">
         <nav class="nav-tabs">
             <a href="index.html" class="active">Candidates</a>
-            <a href="results.html">Results</a>
+            <!-- Results tab temporarily hidden -->
+            <!-- <a href="results.html">Results</a> -->
         </nav>
 
-        <button class="vote-button" onclick="window.open('#', '_blank')">
-            🗳️ Cast Your Vote
-        </button>
+        <div class="thank-you-message">
+            <p>Thank you for participating in the election! Your votes demonstrate our community's strong commitment to TFN's future. We appreciate all candidates for their willingness to serve.</p>
+        </div>
 
         <div class="header">
             <h1>Alumni Representative on the TFN Board</h1>
-            <p>Meet our candidates and cast your vote</p>
+            <p>Meet our candidates</p>
         </div>
 
         <div class="candidates-grid" id="candidate-profiles">
@@ -27,6 +28,7 @@
         </div>
     </div>
 
+    <script src="confetti.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

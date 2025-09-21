@@ -206,22 +206,38 @@ function loadCandidateProfiles() {
         });
     }
 
-    profilesContainer.innerHTML = Object.entries(CANDIDATE_PROFILES).map(([name, profile]) => `
-        <div class="candidate-profile">
-            ${name === leadingCandidate && maxVotes > 0 ? '<div class="crown">👑</div>' : ''}
-            <div class="candidate-avatar">
-                ${profile.imageUrl ? 
-                    `<img src="${profile.imageUrl}" alt="${name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">` :
-                    profile.avatar || name[0]
-                }
+    profilesContainer.innerHTML = Object.entries(CANDIDATE_PROFILES).map(([name, profile]) => {
+        const candidateData = pollData.find(c => c.candidate === name) || { votes: 0 };
+        const percentage = totalVotes > 0 ? (candidateData.votes / totalVotes * 100).toFixed(1) : 0;
+        const isWinner = name === leadingCandidate && maxVotes > 0;
+        
+        return `
+            <div class="candidate-profile ${isWinner ? 'winner' : ''}">
+                ${isWinner ? '<div class="crown">👑</div>' : ''}
+                <div class="candidate-avatar">
+                    ${profile.imageUrl ? 
+                        `<img src="${profile.imageUrl}" alt="${name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">` :
+                        profile.avatar || name[0]
+                    }
+                </div>
+                <h4>${name}</h4>
+                <p>${profile.bio}</p>
+                <p class="vote-percentage">${percentage}% votes</p>
+                <a href="profile.html?candidate=${encodeURIComponent(name)}" class="profile-link">
+                    View Full Profile
+                </a>
             </div>
-            <h4>${name}</h4>
-            <p>${profile.bio}</p>
-            <a href="profile.html?candidate=${encodeURIComponent(name)}" class="profile-link">
-                View Full Profile
-            </a>
-        </div>
-    `).join('');
+        `;
+    }).join('');
+    
+    // Trigger confetti for the winner
+    if (leadingCandidate && maxVotes > 0) {
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 }
+        });
+    }
 }
 
 // Function to initialize the results page

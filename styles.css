@@ -98,6 +98,98 @@ body {
     justify-content: center;
     color: white;
     font-size: 20px;
+}
+
+/* New styles for vote completed state */
+.thank-you-message {
+    background: #D13239;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    color: white;
+    margin: 20px auto;
+    max-width: 800px;
+}
+
+.thank-you-message p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Vote percentage styles */
+.vote-percentage {
+    color: #1F365F;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 10px 0;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 5px 10px;
+    border-radius: 15px;
+    display: inline-block;
+}
+
+/* Winner styles */
+.candidate-profile.winner {
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
+    border: 2px solid gold;
+}
+
+.crown {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    font-size: 2rem;
+    transform: rotate(30deg);
+    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+}
+}
+
+/* New styles for vote completed state */
+.thank-you-message {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    color: white;
+    margin: 20px auto;
+    max-width: 800px;
+}
+
+.thank-you-message p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Vote percentage styles */
+.vote-percentage {
+    color: #1F365F;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 10px 0;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 5px 10px;
+    border-radius: 15px;
+    display: inline-block;
+}
+
+/* Winner styles */
+.candidate-profile.winner {
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
+    border: 2px solid gold;
+}
+
+.crown {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    font-size: 2rem;
+    transform: rotate(30deg);
+    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+}
     font-weight: bold;
     margin-right: 15px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
